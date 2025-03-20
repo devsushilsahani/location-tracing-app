@@ -1,0 +1,59 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model to store user information
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  routes    Route[]
+}
+
+// Route model to store route information
+model Route {
+  id          String     @id @default(uuid())
+  date        DateTime
+  startTime   DateTime
+  endTime     DateTime
+  duration    Int        // Duration in seconds
+  distance    Float      // Distance in meters
+  userId      String
+  user        User       @relation(fields: [userId], references: [id])
+  locations   Location[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([userId])
+  @@index([date])
+}
+
+// Location model to store individual location points
+model Location {
+  id        String   @id @default(uuid())
+  latitude  Float
+  longitude Float
+  altitude  Float?
+  speed     Float?
+  timestamp DateTime
+  deviceId  String?  // Device identifier for tracking hardware devices
+  routeId   String?
+  route     Route?   @relation(fields: [routeId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@index([routeId])
+  @@index([timestamp])
+}
