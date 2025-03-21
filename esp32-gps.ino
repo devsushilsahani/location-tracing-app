@@ -29,7 +29,7 @@ const char* deviceId = "esp32-gps-device-001";
 
 // Optional: If this device is associated with a specific user, set the userId
 // Leave empty if this is a standalone device
-const char* userId = ""; // e.g., "test-user-id" if using test user
+const char* userId = "test-user-id"; // e.g., "test-user-id" if using test user
 
 // WebSocket Server configuration
 const char* webSocketServerHost = serverAddress; // Using same server
