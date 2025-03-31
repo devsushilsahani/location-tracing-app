@@ -45,7 +45,7 @@ export default function HistoryScreen() {
             date: selectedDate.toISOString().split('T')[0],
             duration: calculateDuration(response.data),
             distance: calculateDistance(response.data),
-            coordinates: response.data.map(loc => ({
+            coordinates: response.data.map((loc: LocationData) => ({
               latitude: loc.latitude,
               longitude: loc.longitude
             }))
